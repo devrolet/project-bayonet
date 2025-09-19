@@ -1,6 +1,6 @@
 
 import CreatePost from "@/components/CreatePost";
-import PostCard from "@/components/PostCard";
+// import PostCard from "@/components/PostCard";
 import WhoToFollow from "@/components/WhoToFollow";
 import { currentUser } from "@clerk/nextjs/server";
 
