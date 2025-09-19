@@ -1,8 +1,17 @@
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+
 export default function Home() {
   
   return (
-   <div>
-    <h1>Welcome to Project Bayonet</h1>
-   </div>
+    <div>
+      <SignedOut>
+        <SignInButton mode="modal">
+          <button className="bg-lime-500">Sign In</button>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+    </div>
   );
 }
