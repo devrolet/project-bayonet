@@ -103,10 +103,11 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                     <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span>
                   </div>
                 </div>
+                {/* TODO: BUG: Delete button does not display with current condition, only if line above commented out */}
                 {/* Check if current user is post author */}
                 {dbUserId === post.author.id && (
                   <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
-                 )}
+                )}
               </div>
               <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
             </div>
