@@ -79,7 +79,6 @@ function ProfilePageClient({
       setIsUpdatingFollow(true);
       await toggleFollow(user.id);
       setIsFollowing(!isFollowing);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to update follow status");
     } finally {

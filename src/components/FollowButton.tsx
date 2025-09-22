@@ -16,7 +16,6 @@ function FollowButton({ userId }: { userId: string }) {
     try {
       await toggleFollow(userId);
       toast.success("User followed successfully");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error following user");
     } finally {
