@@ -23,7 +23,7 @@ async function ProfilePageServer({params}: {params: {username: string } }) {
     isFollowing(user.id),
   ]);
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return (
     <ProfilePageClient
