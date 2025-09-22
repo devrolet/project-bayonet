@@ -157,6 +157,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
           </div>
 
           {/* COMMENTS SECTION */}
+          {/* TODO: SET UP WAY TO LIKE COMMENTS, ADD ICON TO ADD COMMENT (FUNCTIONALITY ALREADY IN PLACE) */}
           {showComments && (
             <div className="space-y-4 pt-4 border-t">
               <div className="space-y-4">

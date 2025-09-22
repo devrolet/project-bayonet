@@ -82,6 +82,7 @@ function CreatePost() {
                 disabled={isPosting}
               >
                 <ImageIcon className="size-4 mr-2" />
+                Photo
               </Button>
             </div>
             <Button
