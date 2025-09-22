@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+
 
 import { createComment, deletePost, getPosts, toggleLike } from "@/actions/post.action";
 import { SignInButton, useUser } from "@clerk/nextjs";
@@ -9,13 +11,12 @@ import Link from "next/link";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 import { DeleteAlertDialog } from "./DeleteAlertDialog";
-import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon } from "lucide-react";
 import { Button } from "./ui/button";
+import { HeartIcon, LogInIcon, MessageCircleIcon, SendIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
-import Image from "next/image";
 
-type Posts = Awaited<ReturnType<typeof getPosts>>
-type Post = Posts[number]
+type Posts = Awaited<ReturnType<typeof getPosts>>;
+type Post = Posts[number];
 
 function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
   const { user } = useUser();
@@ -24,11 +25,11 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
   const [isLiking, setIsLiking] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === dbUserId));
-  const [optimisticLikes,setOptimisticLikes] = useState(post._count.likes);
+  const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
 
   const handleLike = async () => {
-    if(isLiking) return;
+    if (isLiking) return;
     try {
       setIsLiking(true);
       setHasLiked((prev) => !prev);
@@ -37,23 +38,21 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
     } catch (error) {
       setOptimisticLikes(post._count.likes);
       setHasLiked(post.likes.some((like) => like.userId === dbUserId));
-      console.log(error);
     } finally {
       setIsLiking(false);
     }
-  }
+  };
 
   const handleAddComment = async () => {
-    if(!newComment.trim() || isCommenting) return;
+    if (!newComment.trim() || isCommenting) return;
     try {
       setIsCommenting(true);
       const result = await createComment(post.id, newComment);
-      if(result?.success) {
-      toast.success("Comment posted successfully");
-      setNewComment("");
-    }
+      if (result?.success) {
+        toast.success("Comment posted successfully");
+        setNewComment("");
+      }
     } catch (error) {
-      console.log(error);
       toast.error("Failed to add comment");
     } finally {
       setIsCommenting(false);
@@ -61,20 +60,18 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
   };
 
   const handleDeletePost = async () => {
-    if(isDeleting) return;
-
+    if (isDeleting) return;
     try {
       setIsDeleting(true);
       const result = await deletePost(post.id);
-      if(result.success) toast.success("Post deleted successfully");
+      if (result.success) toast.success("Post deleted successfully");
       else throw new Error(result.error);
     } catch (error) {
-      console.log(error);
       toast.error("Failed to delete post");
     } finally {
       setIsDeleting(false);
     }
-  }
+  };
 
   return (
     <Card className="overflow-hidden">
@@ -103,8 +100,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                     <span>{formatDistanceToNow(new Date(post.createdAt))} ago</span>
                   </div>
                 </div>
-                {/* TODO: BUG: Delete button does not display with current condition, only if line above commented out */}
-                {/* Check if current user is post author */}
+                {/* Check if current user is the post author */}
                 {dbUserId === post.author.id && (
                   <DeleteAlertDialog isDeleting={isDeleting} onDelete={handleDeletePost} />
                 )}
@@ -113,7 +109,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
             </div>
           </div>
 
-          {/* TODO: POST IMAGE */}
+          {/* POST IMAGE */}
           {post.image && (
             <div className="rounded-lg overflow-hidden">
               <img src={post.image} alt="Post content" className="w-full h-auto object-cover" />
@@ -153,7 +149,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
               className="text-muted-foreground gap-2 hover:text-blue-500"
               onClick={() => setShowComments((prev) => !prev)}
             >
-              <MessageCircleIcon 
+              <MessageCircleIcon
                 className={`size-5 ${showComments ? "fill-blue-500 text-blue-500" : ""}`}
               />
               <span>{post.comments.length}</span>
@@ -176,7 +172,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                         <span className="text-sm text-muted-foreground">
                           @{comment.author.username}
                         </span>
-                        <span className="text-sm text-muted-foreground">•</span>
+                        <span className="text-sm text-muted-foreground">·</span>
                         <span className="text-sm text-muted-foreground">
                           {formatDistanceToNow(new Date(comment.createdAt))} ago
                         </span>
@@ -208,7 +204,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
                       >
                         {isCommenting ? (
                           "Posting..."
-                        ): (
+                        ) : (
                           <>
                             <SendIcon className="size-4" />
                             Comment
@@ -233,7 +229,6 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
-
-export default PostCard
+export default PostCard;
